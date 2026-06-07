@@ -59,15 +59,15 @@
 // mainstream AVR processors generally have 1,2,3, or 8 external interrupts
 // (if someone has a better idea of how to manage this, let me know)
 #ifdef SIG_INTERRUPT7
-#define EXTINT_NUM_INTERRUPTS	8
+	#define EXTINT_NUM_INTERRUPTS	8
 #else
 #ifdef SIG_INTERRUPT2
-#define EXTINT_NUM_INTERRUPTS	3
+	#define EXTINT_NUM_INTERRUPTS	3
 #else
 #ifdef SIG_INTERRUPT1
-#define EXTINT_NUM_INTERRUPTS	2
+	#define EXTINT_NUM_INTERRUPTS	2
 #else
-#define EXTINT_NUM_INTERRUPTS	1
+	#define EXTINT_NUM_INTERRUPTS	1
 #endif
 #endif
 #endif
@@ -97,7 +97,7 @@ void extintConfigure(u08 interruptNum, u08 configuration);
 //		void myInterruptHandler(void) { ... }
 
 //! Attach a user function to an external interrupt
-void extintAttach(u08 interruptNum, void (*userHandler)(void));
+void extintAttach(u08 interruptNum, void (*userHandler)(void) );
 //! Detach a user function from an external interrupt
 void extintDetach(u08 interruptNum);
 

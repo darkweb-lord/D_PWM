@@ -23,20 +23,20 @@
 #define AVRLIBTYPES_H
 
 #ifndef WIN32
-// true/false defines
-#define FALSE	0
-#define TRUE	1
+	// true/false defines
+	#define FALSE	0
+	#define TRUE	1
 #endif
 
 // datatype definitions macros
-typedef unsigned char u08;
-typedef signed char s08;
+typedef unsigned char  u08;
+typedef   signed char  s08;
 typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned long u32;
-typedef signed long s32;
+typedef   signed short s16;
+typedef unsigned long  u32;
+typedef   signed long  s32;
 typedef unsigned long long u64;
-typedef signed long long s64;
+typedef   signed long long s64;
 
 /* use inttypes.h instead
 // C99 standard integer type definitions
@@ -48,7 +48,7 @@ typedef unsigned long	uint32_t;
 typedef   signed long	int32_t;
 typedef unsigned long	uint64_t;
 typedef   signed long	int64_t;
- */
+*/
 // maximum value that can be held
 // by unsigned data types (8,16,32bits)
 #define MAX_U08	255
@@ -65,20 +65,20 @@ typedef   signed long	int64_t;
 #define MAX_S32	2147483647
 
 #ifndef WIN32
-// more type redefinitions
-typedef unsigned char BOOL;
-typedef unsigned char BYTE;
-typedef unsigned int WORD;
-typedef unsigned long DWORD;
+	// more type redefinitions
+	typedef unsigned char   BOOL;
+	typedef unsigned char	BYTE;
+	typedef unsigned int	WORD;
+	typedef unsigned long	DWORD;
 
-typedef unsigned char UCHAR;
-typedef unsigned int UINT;
-typedef unsigned short USHORT;
-typedef unsigned long ULONG;
+	typedef unsigned char	UCHAR;
+	typedef unsigned int	UINT;
+	typedef unsigned short  USHORT;
+	typedef unsigned long	ULONG;
 
-typedef char CHAR;
-typedef int INT;
-typedef long LONG;
+	typedef char			CHAR;
+	typedef int				INT;
+	typedef long			LONG;
 #endif
 
 #endif

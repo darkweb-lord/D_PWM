@@ -76,13 +76,13 @@
 
 // processor compatibility fixes
 #ifdef __AVR_ATmega323__
-// redefinition for the Mega323
-#define CTC1	CTC10
+	// redefinition for the Mega323
+	#define CTC1	CTC10
 #endif
 #ifndef PWM10
-// mega128 PWM bits
-#define PWM10	WGM10
-#define PWM11	WGM11
+	// mega128 PWM bits
+	#define PWM10	WGM10
+	#define PWM11	WGM11
 #endif
 
 
@@ -194,10 +194,10 @@ void delay_us(unsigned short time_us);
 void timerInit(void);
 
 // default initialization routines for each timer
-void timer0Init(void); ///< initialize timer0
-void timer1Init(void); ///< initialize timer1
+void timer0Init(void);		///< initialize timer0
+void timer1Init(void);		///< initialize timer1
 #ifdef TCNT2	// support timer2 only if it exists
-void timer2Init(void); ///< initialize timer2
+void timer2Init(void);		///< initialize timer2
 #endif
 
 // Clock prescaler set/get commands for each timer/counter
@@ -206,13 +206,13 @@ void timer2Init(void); ///< initialize timer2
 // you want.
 // When getting the current prescaler setting, the return value
 // will be the [x] division value currently set.
-void timer0SetPrescaler(u08 prescale); ///< set timer0 prescaler
-u16 timer0GetPrescaler(void); ///< get timer0 prescaler
-void timer1SetPrescaler(u08 prescale); ///< set timer1 prescaler
-u16 timer1GetPrescaler(void); ///< get timer0 prescaler
+void timer0SetPrescaler(u08 prescale);		///< set timer0 prescaler
+u16  timer0GetPrescaler(void);				///< get timer0 prescaler
+void timer1SetPrescaler(u08 prescale);		///< set timer1 prescaler
+u16  timer1GetPrescaler(void);				///< get timer0 prescaler
 #ifdef TCNT2	// support timer2 only if it exists
-void timer2SetPrescaler(u08 prescale); ///< set timer2 prescaler
-u16 timer2GetPrescaler(void); ///< get timer2 prescaler
+void timer2SetPrescaler(u08 prescale);		///< set timer2 prescaler
+u16  timer2GetPrescaler(void);				///< get timer2 prescaler
 #endif
 
 
@@ -238,7 +238,7 @@ u16 timer2GetPrescaler(void); ///< get timer2 prescaler
 //		void myOverflowFunction(void) { ... }
 
 //! Attach a user function to a timer interrupt
-void timerAttach(u08 interruptNum, void (*userFunc)(void));
+void timerAttach(u08 interruptNum, void (*userFunc)(void) );
 //! Detach a user function from a timer interrupt
 void timerDetach(u08 interruptNum);
 
@@ -249,11 +249,11 @@ void timerDetach(u08 interruptNum);
 void timerPause(unsigned short pause_ms);
 
 // overflow counters
-void timer0ClearOverflowCount(void); ///< Clear timer0's overflow counter. 
-long timer0GetOverflowCount(void); ///< read timer0's overflow counter
+void timer0ClearOverflowCount(void);	///< Clear timer0's overflow counter. 
+long timer0GetOverflowCount(void);		///< read timer0's overflow counter
 #ifdef TCNT2	// support timer2 only if it exists
-void timer2ClearOverflowCount(void); ///< clear timer2's overflow counter
-long timer2GetOverflowCount(void); ///< read timer0's overflow counter
+void timer2ClearOverflowCount(void);	///< clear timer2's overflow counter
+long timer2GetOverflowCount(void);		///< read timer0's overflow counter
 #endif
 
 /// @defgroup timerpwm Timer PWM Commands

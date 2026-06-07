@@ -1,12 +1,12 @@
 /******************************************************************************
-           Filename     : glovar.c     
-           Author       : Manjula P
-           Last Modified: 5/12/2009                                           
-           Description  : Global variables are defined                 
- ******************************************************************************/
+		   Filename     : glovar.c     
+		   Author       : Manjula P
+		   Last Modified: 5/12/2009                                           
+		   Description  : Global variables are defined                 
+******************************************************************************/
 extern void uartInit(void);
 extern void uartSend(unsigned char);
-extern void uartStringSend(unsigned char[255]);
+extern void uartStringSend(unsigned char[255]); 
 /*****************************************************************************/
 #ifndef EXTINT_INTERRUPT_HANDLER
 #define EXTINT_INTERRUPT_HANDLER	SIGNAL
@@ -25,11 +25,13 @@ extern void uartStringSend(unsigned char[255]);
 #define		NO_KEY			0x0F  //1111
 #define     SET_KEY         0x06  //0110
 
-#define    MPASSWORD      3856  
-#define    AI_SCANTIME    10   //msec
+#define    MPASSWORD      1 
+#define    AI_SCANTIME    10  //msec
 #define    SCAN_TIME      0.010     //10msec
+#define    TIMESEC        20
+
 #define    VERSION        1.10
-#define    CLOCK_FREQUENCY    10      //MHz
+#define    CLOCK_FREQUENCY1    10      //MHz
 /* Polynomial co-efficients for Actual tension */
 #define    ACT_TENSIONA      0.0000001  //a - 7 precision
 #define    ACT_TENSIONB      0.0001     //b - 4 precision
@@ -40,346 +42,370 @@ extern void uartStringSend(unsigned char[255]);
 #define    SET_TENSIONC      0.0001     //c - 4 Precision
 
 unsigned char READ_CHAR[220];
-unsigned char DATA_RECEIVED = 0, READ_CODE = 0, RX_BUSY = 0, DNLD_CODE = 0;
-unsigned char Received = 2;
-int STEPS = 0, x = 0;
-int SCI_COUNT = 0;
+unsigned char DATA_RECEIVED=0,READ_CODE=0,RX_BUSY=0,DNLD_CODE=0;
+unsigned char Received=2;
+int STEPS=0,x=0;
+int SCI_COUNT=0;
 
 int CALIBRATION[200];
-int Scale[2] = {0, 0};
-int G_F_WAIT_TIME = 0;
-int KEYCOUNT = 0;
-int DELAY_RESPONSE = 0;
-int CURSOR_POSITION = 0;
-int PEAKPERIOD = 0;
-int STARTINGDELAY = 0;
-int POSTDELAY = 0;
-int Time_Count = 0;
-int Pulsecount = 0;
-int Memorycount = 0;
-int Displaycount = 0;
-int Messagecount = 0;
-int PASS = 0;
-int Opmenucount = 0;
-int MULTIPLE = 0;
-int KEY = 0;
-int MAXVALUE = 0;
-int MIN = 0;
-int PREVIOUSPAGE = -1;
-int ZEROCOUNT = 0;
-int CALCOUNT = 0;
-int COUNTS = 157;
-int Delaycount = 0, Increment = 0;
-int Lengthcnt = 0;
-int Savecnt = 0;
-int Pulse_Rx = 0;
-int CountRx = 0;
-int Prev_count = -1;
-int Storedcnt = 0;
-unsigned int LENGTH = 0;
-
-unsigned char numeric[5] = {0, 0, 0, 0, 0};
-//DATADISPLAY[30]={0,1,2,3,4,5,6,7,8,9,F,1,-,S,S,F,2,- ,P,0,F ,3 ,-, P , C ,F ,4 ,-, P , n, - , ON CA5-A , ON CA5-B , ON CA5-C, OFF}
-unsigned char DATADISPLAY[40] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x71, 0x06, 0x40, 0x6D, 0x6D, 0x71, 0x5B, 0x40, 0x73, 0x3F, 0x71, 0x4F, 0x40, 0x73, 0x39, 0x71, 0x66, 0x40, 0x73, 0x37, 0x40, 0x01, 0x02, 0x04, 0x00, 0x73};
-unsigned char SAVE = 0;
-unsigned char KEY_CONT_PRESS = 0;
-unsigned char KEY_PRESSED = 0;
-unsigned char KEY_OPRN_OVER = 0;
-unsigned char MAX_CUR_POS = 0;
-unsigned char SETPAGE = 0;
-unsigned char MAX_PAGE = 12;
-unsigned char KEY_DEBOUNCE = 0;
-unsigned char CURSOR_CNT = 0;
-unsigned char DIGITS = 1;
-unsigned char OPMENU_PAGE = 1;
-unsigned char DIRECTION = 1;
-unsigned char SETUP_INDEX = 0;
-unsigned char DECIMAL_POINT = 1;
-unsigned char PEAKDETECT = 0;
-unsigned char FAULT = 0;
-unsigned char ENTER_KEYCOUNT = 2;
-unsigned char CURSOR = 0;
-unsigned char PREVVALUE = 0;
-unsigned char PREVIOUSVAL = 0;
-unsigned char AUTOMAN = 0;
-unsigned char PEAKRESET = 0;
-unsigned char PIDENABLE = 0;
-unsigned char PREVDI2 = 2;
-unsigned char PREVDI1 = 2;
-unsigned char PEAKSTOP = 1;
-unsigned char PREVPAGE = 1;
-unsigned char PREVCOUNT = 0;
-unsigned char PREVENTERCOUNT = 1;
-unsigned char SIGN = 0;
-unsigned char PUSHTOZERO = 0;
-unsigned char PUSHTOCAL = 0;
-unsigned char Weightsmall = 0;
-unsigned char PrevDP = -1;
+int Scale[2]={0,0};
+int G_F_WAIT_TIME=0;
+int KEYCOUNT=0;
+int DELAY_RESPONSE= 0;
+int CURSOR_POSITION=0;
+int PEAKPERIOD=0;
+int STARTINGDELAY=0;
+int POSTDELAY=0;
+int Time_Count=0;
+int Pulsecount=0;
+int Memorycount=0;
+int Displaycount=0;
+int Messagecount=0;
+int PASS=0;
+int Opmenucount=0;
+int MULTIPLE=0;
+int KEY=0;
+int MAXVALUE=0;
+int MIN=0;
+int PREVIOUSPAGE=-1;
+int ZEROCOUNT=0;
+int CALCOUNT=0;
+int COUNTS=157;
+int Delaycount=0,Increment=0;
+int Lengthcnt=0;
+int Savecnt=0;
+int Pulse_Rx=0;
+int CountRx=0;
+int Prev_count=-1;
+int Storedcnt=0;
+unsigned int LENGTH=0;
 
 
-float DP_Scale[3] = {1.0, 10.0, 100.0};
-float AI_ARRAY[4] = {0.0, 0.0, 0.0, 0.0};
-float AI_RAWVALUE[4] = {0.0, 0.0, 0.0, 0.0};
-float AI_FILTER[4] = {0.0, 0.0, 0.0, 0.0};
-float AO_FILTER[2] = {0.0, 0.0};
-//float Unitscale[4]={1.0,9.8066,2.20462,35.27392};//newton,kg,lb,ounce  
-float TypeScaling[2] = {0.0, 0.0};
-float TEMPERATUREDRIFT = 0.0;
-float POWERDRIFT = 0.0;
-float Fm = 0.0, Rm = 0.0;
-float LF_FilteredOp[2] = {0.0, 0.0};
-float ForwardOffset = 0.0;
+unsigned char numeric[5]={0,0,0,0,0};
+              //DATADISPLAY[30]={0,1,2,3,4,5,6,7,8,9,F,1,-,S,S,F,2,- ,P,0,F ,3 ,-, P , C ,F ,4 ,-, P , n, - , ON CA5-A , ON CA5-B , ON CA5-C, OFF}
+unsigned char DATADISPLAY[40]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F,0x71,0x06,0x40,0x6D,0x6D,0x71,0x5B,0x40,0x73,0x3F,0x71,0x4F,0x40,0x73,0x39,0x71,0x66,0x40,0x73,0x37,0x40,0x01,0x02,0x04,0x00,0x73};
+unsigned char SAVE=0;
+unsigned char KEY_CONT_PRESS=0;
+unsigned char KEY_PRESSED=0;
+unsigned char KEY_OPRN_OVER=0;
+unsigned char MAX_CUR_POS=0;
+unsigned char SETPAGE=0;
+unsigned char MAX_PAGE=12; 
+unsigned char KEY_DEBOUNCE=0;
+unsigned char CURSOR_CNT=0;
+unsigned char DIGITS=1;
+unsigned char OPMENU_PAGE=1;
+unsigned char DIRECTION=1;
+unsigned char SETUP_INDEX=0;
+unsigned char DECIMAL_POINT=1;
+unsigned char PEAKDETECT=0;
+unsigned char FAULT=0;
+unsigned char ENTER_KEYCOUNT=2;
+unsigned char CURSOR=0;
+unsigned char PREVVALUE=0;
+unsigned char PREVIOUSVAL=0;
+unsigned char AUTOMAN=0;
+unsigned char PEAKRESET=0;
+unsigned char PIDENABLE=0;
+unsigned char PREVDI2=2;
+unsigned char PREVDI1=2;
+unsigned char PEAKSTOP=1;
+unsigned char PREVPAGE=1;
+unsigned char PREVCOUNT=0;
+unsigned char PREVENTERCOUNT=1;
+unsigned char SIGN=0;
+unsigned char PUSHTOZERO=0;
+unsigned char PUSHTOCAL=0;
+unsigned char Weightsmall=0;
+unsigned char PrevDP=-1;
+unsigned char a=0;
+unsigned char b=0;
+
+
+
+float DP_Scale[3]={1.0,10.0,100.0};
+float AI_ARRAY[4]={0.0,0.0,0.0,0.0};
+float AI_RAWVALUE[4]={0.0,0.0,0.0,0.0};
+float AI_FILTER[4]={0.0,0.0,0.0,0.0};
+float AO_FILTER[2]={0.0,0.0};
+float TypeScaling[2]={0.0,0.0};
+float TEMPERATUREDRIFT=0.0;
+float POWERDRIFT=0.0;
+float Fm=0.0,Rm=0.0;
+float LF_FilteredOp[2]={0.0,0.0};
+float ForwardOffset=0.0;	 
 float ACT_LOAD = 0.0;
 float SET_LOAD = 0.0;
-float Actual_TensionA = 0.0;
-float Actual_TensionB = 0.0;
-float Actual_TensionC = 0.0;
-float Set_TensionA = 0.0;
-float Set_TensionB = 0.0;
-float Set_TensionC = 0.0;
-float AFull_Scale = 0.0;
-float PreviousErr = 0.0;
-float PGain = 0.0;
-float ITime = 0.0;
-float PLmt = 0.0;
-float DeadBand = 0.0;
-float DTime = 0.0;
-float ILmt = 0.0;
-float DLmt = 0.0;
-float Positivelmt = 0.0;
-float Neglmt = 0.0;
-float Analogoutput_speed = 0.0;
-float Temp_Drift = 0.0;
-float Supply_Drift = 0.0;
-float GFA_IntegGain = 0.0;
+float Actual_TensionA=0.0;
+float Actual_TensionB=0.0;
+float Actual_TensionC=0.0;
+float Set_TensionA=0.0;
+float Set_TensionB=0.0;
+float Set_TensionC=0.0;
+float AFull_Scale=0.0;
+float PreviousErr=0.0;
+float PGain=0.0;
+float ITime=0.0;
+float PLmt=0.0;
+float DeadBand=0.0;
+float DTime=0.0;
+float ILmt=0.0;
+float DLmt=0.0;
+float Positivelmt=0.0;
+float Neglmt=0.0;
+float Analogoutput_speed=0.0;
+float Temp_Drift=0.0;
+float Supply_Drift=0.0;
+float GFA_IntegGain=0.0;
 
-float Speed_Constant = 0.0;
-float Freq_Scale = 0.0;
-float Freq_Constant = 0.0;
-float Sampling_Freq = 0.0;
-float Frequency = 0.0;
-float SpeedRpm = 0.0;
-float FilteredFreq = 0.0;
-float Filter_Coeff = 0.0;
+float Speed_Constant=0.0;
+float Freq_Scale=0.0;
+float Freq_Constant=0.0;
+float Sampling_Freq=0.0;
+float Frequency=0.0;
+float SpeedRpm=0.0;
+float FilteredFreq=0.0;
+float Filter_Coeff=0.0;
+float PRESCALER_2=0.0;
+float total_time1=0.0;
+float CLOCK_FREQUENCY=8000000.0;
+float DUTYCYCLE=0.0;
+float PRESCALER1=1.0;
+float Freq1=0.0;
+int count1=0;
+float MAXI_OP1=0.0;
+float MINI_OP1=0.0;
+float duty1=0.0;
 
-unsigned int Overflow_count = 0;
-unsigned int Overflow_count1 = 0;
-unsigned int Totalcounts = 0;
-unsigned int No_Of_Pulse = 0;
-unsigned int PREVIOUSVALUEA = 0;
-unsigned int TotalPulse_Rx = 0;
-unsigned int Forward_Slope = 0;
-unsigned int Reverse_Slope = 0;
-unsigned int Memorycount_Sec = 0;
+float total_time2=0.0;
+float DUTYCYCLE3=0.0;
+int count2=0;
+float Freq2=0.0;
+float MAXI_OP2=0.0;
+float MINI_OP2=0.0;
+float duty2=0.0;
+float d=0;
+
+unsigned int Overflow_count=0;
+unsigned int Overflow_count1=0;
+unsigned int Totalcounts=0;
+unsigned int No_Of_Pulse=0;
+unsigned int PREVIOUSVALUEA=0;
+unsigned int TotalPulse_Rx=0;
+unsigned int Forward_Slope=0;
+unsigned int Reverse_Slope=0;
+unsigned int Memorycount_Sec=0; 
+unsigned int intcount=0;
 
 /********************************************************************************/
-enum ObjectID {
-    ALARM, //0
-    ACTUALLOAD,
-    SETLOAD,
-    ERROR,
+enum ObjectID 
+{
+ 
+ALARM,//0
+FREQUENCY1,//1
+DUTYCYCLE1,
+SET_FREQUENCY1,
 
-    PEAK,
-    TEMPERATURE,
-    ACTUALSPEED,
-    ACTFREQUENCY,
+SET_DUTYCYCLE1,
+FREQUENCY2,
+DUTYCYCLE2,
+SET_FREQUENCY2,
 
-    POWER,
-    LENGTHCOUNT,
-    FORWARDPEAK,
-    REVERSEPEAK, //11
+SET_DUTYCYCLE2,//8
+FREQUENCY3,
+SPEED3,
+SPARE1,//11
 
-    PARAMETERLOCK,
-    ACCESSCODE, //13
-    UNIT,
-    RESPONSE,
+PARAMETERLOCK,
+ACCESSCODE,//13
+SPARE2,
+RESPONSE,
 
-    MAXTENSION,
-    CALWEIGHT, //17
-    CONTROLLER,
-    CONTINUOUSDISPLAY,
+SPARE3,
+SPARE4,//17
+PWM_FREQ_SEL,
+CONTINUOUSDISPLAY,
 
-    MINTENSION,
-    OFFSET, //21
-    FORWARDSLOPE,
-    REVERSESLOPE,
+DIGITALOP1,
+FRE,//21
+FRE_1,
+FIL,
 
-    FORWARDCALSIGNAL,
-    REVERSECALSIGNAL,
-    CALTEMP,
-    CALEXCITATION, //27
+TT,
+PULSE,
+SPARE11,
+SPARE12,//27
 
-    AUTOMANSELECT, //28
-    PIDSTATUS,
-    PGAIN,
-    PLIMIT,
+CHANNEL1_FREQUENCY,//28
+CHANNEL1_DUTYCYCLE,
+CHANNEL1_MINIMUM,
+CHANNEL1_MAXIMUM,
 
-    IGAIN,
-    ILIMIT,
-    DGAIN,
-    DLIMIT, //35
+CHANNEL1_MINIMUMBAND,
+CHANNEL1_MAXIMUMBAND,
+INVERT1,
+SPARE14,//35
 
-    POSLIMIT,
-    NEGLIMIT,
-    DEADBAND,
-    PTERM, //39
+SPARE15,
+CHANNEL2_FREQUENCY,
+CHANNEL2_DUTYCYCLE,
+CHANNEL2_MINIMUM,//39
 
-    ITERM,
-    DTERM,
-    PIDERROR,
-    PIDOUTPUT,
+CHANNEL2_MAXIMUM,
+CHANNEL2_MINIMUMBAND,
+CHANNEL2_MAXIMUMBAND,
+INVERT2,
 
-    SPARE3, //44
-    SPARE4,
-    DIGITALINPUT1,
-    INVERT1,
+SPARE17,//44
+SPARE18,
+SPARE19,
+SPARE20,
 
-    DIGITALINPUT2,
-    INVERT2,
-    SPARE5,
-    SPARE6,
+SPARE21,
+SPARE22,
+SPARE23,
+SPARE24,
 
-    SETVALUE, //52
-    UPLIMIT,
-    UPTOL,
-    LOLIMIT, //55
+SPARE25,//52
+SPARE26,
+SPARE27,
+SPARE28,//55
 
-    LOTOL,
-    SPARE12,
-    SPARE13, //58
-    SPARE14,
+SPARE29,
+SPARE30,
+SPARE31,//58
+SPARE32,
+SPARE33,
+SPARE34,
+SPARE35,//62
+SPARE36,
 
-    SPARE15,
-    SPARE16,
-    SPARE17, //62
-    SPARE18,
+SPARE37,
+SPARE38,
+SPARE39,
+SPARE40,//67
 
-    SPARE19,
-    SPARE20,
-    SPARE21,
-    SPARE22, //67
+SPARE41,
+SPARE42,
+ANALOGINPUT1,//70
+AIOFFSET1,
 
-    SPARE23,
-    SPARE24,
-    ANALOGINPUT1, //70
-    AIOFFSET1,
+AISCALE1,
+AIRESPONSE1,  //73
+AIFULLSCALE1,
+AIOUTPUT1,
 
-    AISCALE1,
-    AIRESPONSE1, //73
-    AIFULLSCALE1,
-    AIOUTPUT1,
+FSCALEDVALUE1,
+ANALOGINPUT2,
+AIOFFSET2,
+AISCALE2,//79
 
-    FSCALEDVALUE1,
-    ANALOGINPUT2,
-    AIOFFSET2,
-    AISCALE2, //79
+AIRESPONSE2, 
+AIFULLSCALE2,
+AIOUTPUT2,
+FSCALEDVALUE2,
 
-    AIRESPONSE2,
-    AIFULLSCALE2,
-    AIOUTPUT2,
-    FSCALEDVALUE2,
+SPARE43,
+SPARE44,
+SPARE45,
+SPARE46,  //87
 
-    ANALOGINPUT3,
-    AIOFFSET3,
-    AISCALE3,
-    AIRESPONSE3, //87
+SPARE47,
+SPARE48,
+SPARE49,
+SPARE50,
 
-    AIFULLSCALE3,
-    AIOUTPUT3,
-    FSCALEDVALUE3,
-    ANALOGINPUT4,
+SPARE51,
+SPARE52,//93
+SPARE53, 
+SPARE54,
 
-    AIOFFSET4,
-    AISCALE4, //93
-    AIRESPONSE4,
-    AIFULLSCALE4,
+SPARE55,
+SPARE56,
+SPARE57,//98
+SPARE58,
 
-    AIOUTPUT4,
-    FSCALEDVALUE4,
-    SPARE25, //98
-    SPARE26,
+SPARE59,
+SPARE60,
+SPARE61,//102
+SPARE62, 
+ 
+SPARE63,
+SPARE64,
+SPARE65,
+SPARE66,
 
-    SPARE27,
-    SPARE28,
-    SPARE29, //102
-    SPARE30,
+SPARE67,
+SPARE68, //109 
+SPARE69,
+SPARE70,
 
-    SPARE31,
-    SPARE32,
-    SPARE33,
-    SPARE34,
+SPARE71,
+SPARE72,
+SPARE73,
+SPARE74,
 
-    SPARE35,
-    SPARE36, //109 
-    PEAKCAPMETHOD,
-    PEAKRESETINPUT,
+SPARE75,
+SPARE76, //117
+SPARE77,
+SPARE78,
 
-    PEAKRESETTYPE,
-    PEAKCAPTUREPERIOD,
-    PEAKPREDELAY,
-    PEAKPOSTDELAY,
+SPARE79,//120
+SPARE80,
+SPARE81,
+SPARE82,
 
-    MINPOSITION,
-    MAXPOSITION, //117
-    ANALOGOUTPUT1,
-    AOFUNCTION1,
+SPARE83,
+SPARE84,
+SPARE85,
+SPARE86,//127
 
-    AOTYPE1, //120
-    AOFORWARDSCALE1,
-    AOREVERSESCALE1,
-    AOOFFSET1,
+SPARE87,
+SPARE88,
+SPARE89,
+SPARE90,
 
-    AORESPONSE1,
-    AOFULLSCALE1,
-    AOOUTPUT1,
-    ANALOGOUTPUT2, //127
+SPARE91,
+SPARE92,
+SPARE93,
+SPARE94,//135
 
-    AOFUNCTION2,
-    AOTYPE2,
-    AOFORWARDSCALE2,
-    AOREVERSESCALE2,
+SPEEDMETHOD,//136
+ENCPPR,
+SPARE95,
+SPDRESPONSE,
 
-    AOOFFSET2,
-    AORESPONSE2,
-    AOFULLSCALE2,
-    AOOUTPUT2, //135
+SAMPLINGINTERVAL,
+FREQMULTIPLIER,
+PULSES,
+ZERODELAY,//143
 
-    SPEEDMETHOD, //136
-    ENCPPR,
-    SPARE37,
-    SPDRESPONSE,
+MAXSPEED,
+MINCOUNT,
+SPDOUTPUT,
+SPARE96,//147
 
-    SAMPLINGINTERVAL,
-    FREQMULTIPLIER,
-    PULSES,
-    ZERODELAY, //143
+ABSOLUTEVALUE,//148
+DPSELECT,
+VERSION_NUMBER,
+FACTORYSET,
 
-    SPARE39,
-    SPARE40,
-    SPDOUTPUT,
-    THRESHOLD, //147
+SETA,//152
+SETB,
+SETC,
+ACTUALA,
 
-    ABSOLUTEVALUE, //148
-    DPSELECT,
-    VERSION_NUMBER,
-    FACTORYSET,
+ACTUALB,
+ACTUALC,
+TEMPDRIFT,//158
+SUPPLYDRIFT,
 
-    SETA, //152
-    SETB,
-    SETC,
-    ACTUALA,
-
-    ACTUALB,
-    ACTUALC,
-    TEMPDRIFT, //158
-    SUPPLYDRIFT,
-
-    PASSWORD, //160
+PASSWORD,//160
 
 
-};
+};  
 /*****************************************************************************************************/
-int AO_VALUE_INDEX[16] = {0, AIOUTPUT2, AIOUTPUT1, FSCALEDVALUE1, PIDERROR, PIDOUTPUT, SPDOUTPUT, PEAK, POWER, LENGTHCOUNT, 0, 0, 0, 0, 0};
+int AO_VALUE_INDEX[16]={0,AIOUTPUT2,AIOUTPUT1,FSCALEDVALUE1,CHANNEL2_MAXIMUMBAND,0,SPDOUTPUT,SET_DUTYCYCLE1,SET_DUTYCYCLE2,0,0,0,0,0,0};
 
 /*****************  Write the setup parameters to EEPROM ************************/
 
